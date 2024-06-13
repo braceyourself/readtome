@@ -21,6 +21,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
 
       // Create loading icon element
+      const loadingContainer = document.createElement("div");
+      loadingContainer.style.position = "fixed";
+      loadingContainer.style.top = "10px";
+      loadingContainer.style.right = "10px";
+      loadingContainer.style.zIndex = "9999";
+      loadingContainer.id = "loadingContainer";
+
       const loadingIcon = document.createElement("div");
       loadingIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
         <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#000" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
@@ -30,13 +37,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;-360 50 50"></animateTransform>
         </circle>
       </svg>`;
-      loadingIcon.style.position = "fixed";
-      loadingIcon.style.top = "10px";
-      loadingIcon.style.right = "10px";
-      loadingIcon.style.zIndex = "9999";
-      loadingIcon.id = "loadingIcon";
-      document.body.appendChild(loadingIcon);
-      console.log("Loading icon added to the page:", loadingIcon);
+
+      const loadingMessage = document.createElement("div");
+      loadingMessage.innerText = "The voice you are hearing is AI and not human.";
+      loadingMessage.style.textAlign = "center";
+      loadingMessage.style.marginTop = "10px";
+
+      loadingContainer.appendChild(loadingIcon);
+      loadingContainer.appendChild(loadingMessage);
+      document.body.appendChild(loadingContainer);
+
+      console.log("Loading icon and message added to the page:", loadingContainer);
 
       fetch("https://api.openai.com/v1/audio/speech", {
         method: "POST",
@@ -61,12 +72,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const audio = new Audio(audioUrl);
         audio.play();
         audio.onended = () => {
-          document.body.removeChild(loadingIcon); // Remove loading icon when audio ends
-          console.log("Loading icon removed after audio ended.");
+          document.body.removeChild(loadingContainer); // Remove loading icon and message when audio ends
+          console.log("Loading icon and message removed after audio ended.");
         };
       })
       .catch(error => {
-        document.body.removeChild(loadingIcon);  // Remove loading icon in case of error
+        document.body.removeChild(loadingContainer);  // Remove loading icon and message in case of error
         console.error("Error:", error);
         alert(`Error: ${error.message}`);
       });
