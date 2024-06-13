@@ -1,9 +1,18 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log("Received message:", request);
+
   if (request.action === "readPage" || request.action === "readSelectedText") {
     const inputText = request.action === "readPage" ? document.body.innerText : request.text;
+    console.log("Input text:", inputText);
 
     chrome.storage.sync.get("selected_voice", (data) => {
+      if (chrome.runtime.lastError) {
+        console.error("Error fetching selected_voice:", chrome.runtime.lastError);
+        return;
+      }
+
       const voice = data.selected_voice || "alloy"; // Default to "alloy" if no voice is selected
+      console.log("Using voice:", voice);
 
       // Create loading icon element
       const loadingIcon = document.createElement("img");

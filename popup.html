@@ -5,7 +5,6 @@
     <style>
       body {
         width: 200px;
-        height: 80px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -24,7 +23,15 @@
   </head>
   <body>
     <div class="input-container">
-      <label for="voiceSelect">Select Voice:</label>
+      <h3>
+        Web Page Reader
+      </h3>
+
+      <div style="margin-bottom: 10px">
+        To use this extension, select the text you want to read, right-click, and select "Read selected text". The extension will read the text aloud to you.
+      </div>
+
+      <label for="voiceSelect">Choose Voice:</label>
       <select id="voiceSelect">
         <option value="alloy">Alloy</option>
         <option value="echo">Echo</option>
