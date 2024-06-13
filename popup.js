@@ -1,6 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const voiceSelect = document.getElementById("voiceSelect");
   const audioList = document.getElementById("audioList");
 
+  // Load selected voice from storage
+  chrome.storage.sync.get("selected_voice", (data) => {
+    if (data.selected_voice) {
+      voiceSelect.value = data.selected_voice;
+    }
+  });
+
+  // Save selected voice to storage
+  voiceSelect.addEventListener("change", () => {
+    chrome.storage.sync.set({ selected_voice: voiceSelect.value }, () => {
+      console.log("Selected voice saved:", voiceSelect.value);
+    });
+  });
+
+  // Load saved audios from storage
   chrome.storage.sync.get({ savedAudios: [] }, (result) => {
     const savedAudios = result.savedAudios;
 
