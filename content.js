@@ -1,34 +1,24 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "readPage") {
-    const textContent = document.body.innerText;
-    fetch("https://api.openai.com/v1/engines/whisper-1/transcriptions", {
+  if (request.action === "readPage" || request.action === "readSelectedText") {
+    const inputText = request.action === "readPage" ? document.body.innerText : request.text;
+    
+    fetch("https://api.openai.com/v1/audio/speech", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${request.apiKey}`
       },
-      body: JSON.stringify({ text: textContent })
+      body: JSON.stringify({
+        model: "tts-1",
+        input: inputText,
+        voice: "alloy"
+      })
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      alert("Whisper AI says: " + data.transcription);
-    })
-    .catch(error => console.error("Error:", error));
-  } else if (request.action === "readSelectedText") {
-    fetch("https://api.openai.com/v1/engines/whisper-1/transcriptions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${request.apiKey}`
-      },
-      body: JSON.stringify({ text: request.text })
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      const utterance = new SpeechSynthesisUtterance(data.transcription);
-      speechSynthesis.speak(utterance);
+    .then(response => response.blob())
+    .then(blob => {
+      const audioUrl = URL.createObjectURL(blob);
+      const audio = new Audio(audioUrl);
+      audio.play();
     })
     .catch(error => console.error("Error:", error));
   }
