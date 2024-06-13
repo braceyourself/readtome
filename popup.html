@@ -18,7 +18,7 @@
     </style>
     <script src="alpine.min.js" defer></script>
   </head>
-  <body x-data="{ apiKey: , saveKey() {
+  <body x-data="{ apiKey: '', saveKey() {
         chrome.storage.sync.set({ openai_api_key: this.apiKey }, () => {
           alert(API Key saved);
         });
