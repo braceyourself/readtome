@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       loadingIcon.style.zIndex = "9999";
       loadingIcon.id = "loadingIcon";
       document.body.appendChild(loadingIcon);
-      console.log("Loading icon added to the page.");
+      console.log("Loading icon added to the page:", loadingIcon);
 
       fetch("https://api.openai.com/v1/audio/speech", {
         method: "POST",

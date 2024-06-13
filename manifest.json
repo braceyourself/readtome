@@ -29,7 +29,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["whisper.js"],
+      "resources": ["icons/loading.gif"],
       "matches": ["<all_urls>"]
     }
   ]
