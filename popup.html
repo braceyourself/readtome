@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web Page Reader</title>
+    <style>
+      body {
+        width: 200px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+      }
+      input {
+        margin-bottom: 10px;
+      }
+    </style>
+    <script src="alpine.min.js" defer></script>
+  </head>
+  <body x-data="{ apiKey: , saveKey() {
+        chrome.storage.sync.set({ openai_api_key: this.apiKey }, () => {
+          alert(API Key saved);
+        });
+      }, readPage() {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          chrome.storage.sync.get(openai_api_key, (data) => {
+            const apiKey = data.openai_api_key;
+            chrome.tabs.sendMessage(tabs[0].id, { action: readPage, apiKey: apiKey });
+          });
+        });
+      }
+    }">
+    <input type="text" x-model="apiKey" placeholder="Enter OpenAI API Key">
+    <button @click="saveKey">Save API Key</button>
+    <button @click="readPage">Read Page</button>
+  </body>
+</html>
