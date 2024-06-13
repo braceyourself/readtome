@@ -8,11 +8,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.sync.get("selected_voice", (data) => {
       if (chrome.runtime.lastError) {
         console.error("Error fetching selected_voice:", chrome.runtime.lastError);
+        alert("Error fetching selected voice.");
         return;
       }
 
       const voice = data.selected_voice || "alloy"; // Default to "alloy" if no voice is selected
       console.log("Using voice:", voice);
+
+      if (!request.apiKey) {
+        alert("No API key provided. Please set your OpenAI API key in the extension options.");
+        return;
+      }
 
       // Create loading icon element
       const loadingIcon = document.createElement("div");
@@ -44,7 +50,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           voice: voice
         })
       })
-      .then(response => response.blob())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+        return response.blob();
+      })
       .then(blob => {
         const audioUrl = URL.createObjectURL(blob);
         const audio = new Audio(audioUrl);
@@ -57,6 +68,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .catch(error => {
         document.body.removeChild(loadingIcon);  // Remove loading icon in case of error
         console.error("Error:", error);
+        alert(`Error: ${error.message}`);
       });
     });
   }
