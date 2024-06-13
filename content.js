@@ -20,13 +20,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return;
       }
 
-      // Create loading icon container
+      // Create loading container element
       const loadingContainer = document.createElement("div");
       loadingContainer.style.position = "fixed";
-      loadingContainer.style.top = "10px";
-      loadingContainer.style.right = "10px";
+      loadingContainer.style.top = "10%";
+      loadingContainer.style.left = "50%";
+      loadingContainer.style.transform = "translate(-50%, -50%)";
       loadingContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)"; // Semi-transparent background
-      loadingContainer.style.padding = "10px";
+      loadingContainer.style.padding = "20px";
       loadingContainer.style.borderRadius = "8px";
       loadingContainer.style.zIndex = "9999";
       loadingContainer.style.color = "#ffffff"; // White text color
