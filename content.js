@@ -20,27 +20,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return;
       }
 
-      // Create loading icon element
+      // Create loading icon container
       const loadingContainer = document.createElement("div");
       loadingContainer.style.position = "fixed";
       loadingContainer.style.top = "10px";
       loadingContainer.style.right = "10px";
+      loadingContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)"; // Semi-transparent background
+      loadingContainer.style.padding = "10px";
+      loadingContainer.style.borderRadius = "8px";
       loadingContainer.style.zIndex = "9999";
+      loadingContainer.style.color = "#ffffff"; // White text color
+      loadingContainer.style.textAlign = "center";
       loadingContainer.id = "loadingContainer";
 
+      // Create loading icon element
       const loadingIcon = document.createElement("div");
-      loadingIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-        <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#000" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
+      loadingIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" style="margin: auto; display: block; shape-rendering: auto;" width="50px" height="50px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#ffffff" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
           <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
         </circle>
-        <circle cx="50" cy="50" r="23" stroke-width="8" stroke="#aaa" stroke-dasharray="36.12831551628262 36.12831551628262" stroke-dashoffset="36.12831551628262" fill="none" stroke-linecap="round">
+        <circle cx="50" cy="50" r="23" stroke-width="8" stroke="#aaaaaa" stroke-dasharray="36.12831551628262 36.12831551628262" stroke-dashoffset="36.12831551628262" fill="none" stroke-linecap="round">
           <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;-360 50 50"></animateTransform>
         </circle>
       </svg>`;
 
+      // Create loading message element
       const loadingMessage = document.createElement("div");
       loadingMessage.innerText = "The voice you are hearing is AI and not human.";
-      loadingMessage.style.textAlign = "center";
       loadingMessage.style.marginTop = "10px";
 
       loadingContainer.appendChild(loadingIcon);
