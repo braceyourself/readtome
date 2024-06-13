@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       body: JSON.stringify({
         model: "tts-1",
         input: inputText,
-        voice: "alloy"
+        voice: request.voice
       })
     })
     .then(response => response.blob())

@@ -5,20 +5,28 @@
     <style>
       body {
         width: 200px;
-        height: 150px;
+        height: 200px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         font-family: Arial, sans-serif;
       }
-      input {
+      select, button, a {
         margin-bottom: 10px;
       }
     </style>
   </head>
   <body>
-<!--    <button id="readPage">Read Page</button>-->
+    <select id="voiceSelect">
+      <option value="alloy">Alloy</option>
+      <option value="echo">Echo</option>
+      <option value="fable">Fable</option>
+      <option value="onyx">Onyx</option>
+      <option value="nova">Nova</option>
+      <option value="shimmer">Shimmer</option>
+    </select>
+    <button id="readPage">Read Page</button>
     <a href="options.html" target="_blank">Edit API Key</a>
     <script src="popup.js"></script>
   </body>
