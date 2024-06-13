@@ -12,7 +12,13 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "readSelectedText") {
     chrome.storage.sync.get("openai_api_key", (data) => {
       const apiKey = data.openai_api_key;
-      chrome.tabs.sendMessage(tab.id, { action: "readSelectedText", text: info.selectionText, apiKey: apiKey });
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        function: (text, apiKey) => {
+          chrome.runtime.sendMessage({ action: "readSelectedText", text, apiKey });
+        },
+        args: [info.selectionText, apiKey]
+      });
     });
   }
 });
