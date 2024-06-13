@@ -106,6 +106,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           document.body.removeChild(loadingContainer); // Remove loading icon, message, and stop button when audio ends
           console.log("Loading icon, message, and stop button removed after audio ended.");
         };
+
+        // Save audio blob to storage
+        chrome.storage.sync.get({ savedAudios: [] }, (result) => {
+          const savedAudios = result.savedAudios;
+          const newAudio = { url: audioUrl, date: new Date().toISOString() };
+
+          // Add new audio and limit to the last 5
+          savedAudios.push(newAudio);
+          if (savedAudios.length > 5) {
+            savedAudios.shift(); // Remove the oldest audio
+          }
+
+          // Save updated audio list
+          chrome.storage.sync.set({ savedAudios: savedAudios }, () => {
+            console.log("Audio saved to storage", savedAudios);
+          });
+        });
       })
       .catch(error => {
         document.body.removeChild(loadingContainer);  // Remove loading icon, message, and stop button in case of error

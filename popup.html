@@ -4,44 +4,23 @@
     <title>Web Page Reader</title>
     <style>
       body {
-        width: 200px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        width: 300px;
         font-family: Arial, sans-serif;
         padding: 10px;
       }
-      .input-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+      .audio-list {
+        margin-top: 20px;
       }
-      a {
-        align-self: flex-end;
+      .audio-item {
+        margin-bottom: 10px;
       }
     </style>
   </head>
   <body>
-    <div class="input-container">
-      <h3>
-        Web Page Reader
-      </h3>
-
-      <div style="margin-bottom: 10px">
-        To use this extension, select the text you want to read, right-click, and select "Read selected text". The extension will read the text aloud to you.
-      </div>
-
-      <label for="voiceSelect">Choose Voice:</label>
-      <select id="voiceSelect">
-        <option value="alloy">Alloy</option>
-        <option value="echo">Echo</option>
-        <option value="fable">Fable</option>
-        <option value="onyx">Onyx</option>
-        <option value="nova">Nova</option>
-        <option value="shimmer">Shimmer</option>
-      </select>
+    <h2>Web Page Reader</h2>
+    <div class="audio-list" id="audioList">
+      <p>Loading saved audios...</p>
     </div>
-    <a href="options.html" target="_blank">Edit API Key</a>
     <script src="popup.js"></script>
   </body>
 </html>
