@@ -47,8 +47,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
       // Create loading message element
       const loadingMessage = document.createElement("div");
-      loadingMessage.innerText = "The voice you are hearing is AI and not human.";
+      loadingMessage.innerText = "Preparing the audio...";
       loadingMessage.style.marginTop = "10px";
+      loadingMessage.id = "loadingMessage";
 
       // Create stop button element
       const stopButton = document.createElement("button");
@@ -90,13 +91,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       })
       .then(response => {
         if (!response.ok) {
+          document.getElementById("loadingMessage").innerText = `Error: API request failed with status ${response.status}`;
           throw new Error(`API request failed with status ${response.status}`);
         }
+        document.getElementById("loadingMessage").innerText = "Loading audio...";
         return response.blob();
       })
       .then(blob => {
         const audioUrl = URL.createObjectURL(blob);
         audio.src = audioUrl;
+        document.getElementById("loadingMessage").innerText = "The voice you are hearing not human. It is generated using AI.";
         audio.play();
         audio.onended = () => {
           document.body.removeChild(loadingContainer); // Remove loading icon, message, and stop button when audio ends
